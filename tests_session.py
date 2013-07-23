@@ -13,18 +13,18 @@ OE_BASE_SERVER_URL = 'http://localhost:8069'
 # client instanciation, sets-up werkzeug session (sid cookie) and openerp session (session_id)
 server = OpenERPJSONRPCClient(OE_BASE_SERVER_URL)
 
-database_svc = server.get_service('database')
-db_list = database_svc.get_list()
-print "database list=%s" % db_list
+#
+# authenticate
+#
+# low level
+session_info = server.authenticate('toto', 'admin', 'admin', OE_BASE_SERVER_URL)
+
 
 session_svc = server.get_service('session')
+result = session_svc.authenticate('toto', 'admin', 'admin', OE_BASE_SERVER_URL)
+print "authenticate(): %s" % result
 
-#try:
-#    print "authenticate:%s" % session_svc.authenticate(db='CMoag', login='admin', password='blabla')
-#except OpenERPJSONRPCClientException as exc:
-#    print exc.code, exc.message, exc.data['fault_code']
-#TODO: Test login on a non existent database
-print "authenticate:%s" % session_svc.authenticate(db='oejrpc_demo', login='admin', password='admin')
+exit()
 
 session_info = session_svc.get_session_info()
 context = session_info['user_context']

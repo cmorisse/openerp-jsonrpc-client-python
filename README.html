@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.10: http://docutils.sourceforge.net/" />
+<title></title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7514 2012-09-14 14:27:12Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document">
+
+
+<div class="section" id="openerp-json-rpc-client">
+<h1>OpenERP JSON-RPC Client</h1>
+<p>This module allows to remotely interact with an OpenERP Server 7.0 with Python
+using the same JSON-RPC interface used by the standard OpenERP web client.</p>
+<dl class="docutils">
+<dt>This module :</dt>
+<dd><ul class="first last simple">
+<li>has only been tested on Python 2.7</li>
+<li>depends on the <strong>requests</strong> library available at <a class="reference external" href="http://python-requests.org">http://python-requests.org</a></li>
+<li>is released under the FreeBSD Licence</li>
+<li>is in alpha stage</li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="introduction">
+<h2>Introduction</h2>
+<dl class="docutils">
+<dt>This module:</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>allows to remotely invoked <strong>ALL</strong> OpenERP services defined in openerp/addons/web/controllers/main.py.</dt>
+<dd><p class="first last">These are the exact services called by the latest web client.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">provides a way to conveniently call OpenERP Orm Objects methods (provided by the <em>dataset</em> service via the call_kw() method).</p>
+</li>
+</ul>
+</dd>
+<dt><strong>Why a new module when they are several NET-RPC and XML-RPC client libraries ?</strong></dt>
+<dd><ol class="first last arabic simple">
+<li>For tests, openerp_jsonrpc_client allows to use the exact same rpc as the <em>Web client</em>.</li>
+<li>json-rpc is becoming the standard way to call an OpenERP Server as the <em>Web client</em> is becoming the standard client.</li>
+<li>json-rpc allows to preserve context values accross calls as if they were made inside the server.</li>
+<li>openerp_jsonrpc_client allows to use positional and keywords arguments which simplifies some calls.</li>
+</ol>
+</dd>
+</dl>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting Started</h2>
+<div class="section" id="install-the-module">
+<h3>Install the module</h3>
+<blockquote>
+<ul>
+<li><dl class="first docutils">
+<dt>Use pip or easy_install with this url: <a class="reference external" href="http://bitbucket.org/cmorisse/openerp-jsonrpc-client">http://bitbucket.org/cmorisse/openerp-jsonrpc-client</a></dt>
+<dd><p class="first last"><tt class="docutils literal">pip install <span class="pre">http://bitbucket.org/cmorisse/openerp-jsonrpc-client</span></tt></p>
+</dd>
+</dl>
+</li>
+</ul>
+</blockquote>
+<p>Let's say you an OpenERP Server 7.0 available at <a class="reference external" href="http://myserver.com:8069">http://myserver.com:8069</a></p>
+</div>
+</div>
+<div class="section" id="overview">
+<h2>Overview</h2>
+<p>OEJRPC allow to programmaticaly interect with OpenERP using the same proctocol as the web client.</p>
+<div class="section" id="error-handling">
+<h3>Error handling</h3>
+<p>As an RPC framework, you can face X differents error conditions:
+- Failure of the RPC
+- Failure of the remote call invoked</p>
+<p>Example
+server = OpenERPJSONRPCClient(&quot;<a class="reference external" href="http://nonexistenthost">http://nonexistenthost</a>&quot;)
+will raise requests.exceptions.ConnectionError</p>
+<p>db_svc = server.get_service('databasard')
+will raise a openerp_jsonrpc_client.OpenERPJSONRPCClientServiceNotFoundError</p>
+<p>db_list = db_svc.get_listo()
+willraise a openerp_jsonrpc_client.OpenERPJSONRPCClientMethodNotFoundError</p>
+</div>
+<div class="section" id="named-parameters">
+<h3>Named parameters</h3>
+<p>OEJRPC supports named parameters (that XML-RPC don't support).</p>
+<p>Let's consider 'dataset' service search_read() method which combines a search and a read in
+one server roundtrip.</p>
+<dl class="docutils">
+<dt>The method signature is:</dt>
+<dd>search_read(self, req, model, fields=False, offset=0, limit=False, domain=None, sort=None)</dd>
+</dl>
+<p>OEJRPC allow us to call it this way:</p>
+<p>server = OpenERPJSONRPCClient('<a class="reference external" href="http://localhost:8069">http://localhost:8069</a>')
+ds_svc = server.get_service('dataset')
+cyril_partners = ds_svc.search_read('res.partner', domain=[('name', 'ilike', 'cyril')])</p>
+</div>
+<div class="section" id="typical-calls-sequence">
+<h3>Typical calls sequence</h3>
+<p>To invoke a method, you need one server object and various services objects.
+Once you get them, you can call all the methods which do not require you to be authenticated
+(mainly the function used by the &quot;Manage Databases&quot; menu.</p>
+<p>server = OpenERPJSONRPCClient('<a class="reference external" href="http://server:8069">http://server:8069</a>')
+database_svc = server.get_service('database')
+db_list = database_svc.get_list()</p>
+<p>To go further and access objects, you need to authenticate using the 'session' service
+session_svc = server.get_service('session')
+try:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">/Users/cmorisse/Dropbox/d18d/openerp/openerp-jsonrpc-client/openerp-jsonrpc-client/README.rst</tt>, line 98)</p>
+Unexpected indentation.</div>
+<blockquote>
+print &quot;authenticate:%s&quot; % session_svc.authenticate(db='CMoag', login='admin', password='blabla')</blockquote>
+<div class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<tt class="docutils">/Users/cmorisse/Dropbox/d18d/openerp/openerp-jsonrpc-client/openerp-jsonrpc-client/README.rst</tt>, line 99)</p>
+Block quote ends without a blank line; unexpected unindent.</div>
+<dl class="docutils">
+<dt>except OpenERPJSONRPCClientException as exc:</dt>
+<dd>print exc.code, exc.message, exc.data['fault_code']
+#
+# NOTE: exc and exc.data content exploration is left to the user as a thriving exercise
+#</dd>
+</dl>
+<p>session_svc.authenticate() returns a session_info dict that you should store as it contains
+the user context.
+But OEJRPC stores your session id so that you don't need to manage it in subsequent calls to
+the server.</p>
+<div class="section" id="accessing-openerp-objects-osv-objects">
+<h4>Accessing OpenERP objects (osv objects)</h4>
+<p>To access osv objects, you muse use the dataset service.
+This service:
+- provides some hepers function to manipulate objects
+- allows to call osv objects methods</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="titre-1">
+<h1>Titre 1</h1>
+<p>coucou</p>
+<div class="section" id="titre-2">
+<h2>Titre 2</h2>
+<p>coucou</p>
+<div class="section" id="titre-3">
+<h3>Titre 3</h3>
+<p>coucou</p>
+<div class="section" id="titre-4">
+<h4>Titre 4</h4>
+<p>coucou</p>
+<div class="section" id="titre-5">
+<h5>Titre 5</h5>
+<p>coucou</p>
+<div class="section" id="titre-6">
+<h6>Titre 6</h6>
+<p>coucou</p>
+<div class="section" id="titre-7">
+<h7>Titre 7</h7>
+<p>coucou</p>
+<div class="section" id="titre-8">
+<h8>Titre 8</h8>
+<p>coucou</p>
+<div class="section" id="titre-9">
+<h9>Titre 9</h9>
+<p>coucou</p>
+<div class="section" id="titre-10">
+<h10>Titre 10</h10>
+<p>coucou</p>
+<div class="section" id="titre-11">
+<h11>Titre 11</h11>
+<p>coucou</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
