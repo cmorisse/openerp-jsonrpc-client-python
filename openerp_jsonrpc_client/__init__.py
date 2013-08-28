@@ -55,7 +55,7 @@ class OpenERPModelProxy(object):
         """
         def proxy(*args, **kwargs):
             # TODO: extract description = kw.pop('description', None) for funkload
-            return self._json_rpc_client.call('dataset', 'call_kw', method, self.model_name, *args, **kwargs)
+            return self._json_rpc_client.dataset_call_kw(self.model_name, method, *args, **kwargs)
         return proxy
 
 
@@ -114,31 +114,6 @@ class OpenERPJSONRPCClient():
         server_response = requests.post(url, json.dumps(post_data), cookies=self._cookies)
         self._rid += 1  # we update request id
         return server_response
-
-    def call(self, service, method, **kwargs):
-        """
-        call() is a jsonrpc() wrapper which:
-        - build params dict
-        - returns jsonrpc.result as a dict or the whole json response in case of error
-        """
-        # we inject the session_id in params dict
-        kwargs['session_id'] = self._session_id
-
-        #: :type: requests.Response
-        response = self.jsonrpc(self._url_for_method(service, method), 'call', **kwargs)
-        if response.status_code != 200:
-            raise OpenERPJSONRPCClientMethodNotFoundError("%s is not a valid URL." %
-                                                          (self._url_for_method(service, method),))
-        json_response = response.json()
-        if json_response.get('result', False):
-            return json_response['result']
-
-        # jsonrpc returns an error. So we raise an OpenERPJSONRPCClientException
-        # based on the (error) response content.
-        raise OpenERPJSONRPCClientException(json_response['error']['code'],
-                                            json_response['error']['message'],
-                                            json_response['error']['data'],
-                                            json_response)
 
     def oe_jsonrpc(self, url, method, params={}):
         """
@@ -368,3 +343,111 @@ class OpenERPJSONRPCClient():
         :return: a dict containing session information
         """
         return self.call_with_named_arguments('session', 'sc_list', context=context)
+
+    #
+    # Dataset service
+    #
+    def dataset_search_read(self, model, fields=False, offset=0, limit=False, domain=[], sort=None, context={}):
+        """
+        Perform a serch and a read in the same roundtrip
+        :param model: Model involved in search
+        :param fields: Fields you want to fetch. All by default
+        :param offset: Offset of the first record you want to fetch. 0 by default
+        :param limit: Number of record you want to fetch. All by default
+        :param domain: An OpenERP domain specifying search_criteria. All records by default (OpenERP expects an empty domain( [] ) in that case)
+        :param sort: Columns to sort record by. osv.Model _order attribute by default
+        :return:
+        """
+        # TODO: document data returned by calls in case if success and in case of failure
+        return self.call_with_named_arguments('dataset', 'search_read',
+                                              model=model,
+                                              fields=fields,
+                                              offset=offset,
+                                              limit=limit,
+                                              domain=domain,
+                                              sort=sort,
+                                              context=context)
+
+    def dataset_load(self, model, id, fields=False, context={}):
+        """
+        Load all fields of one object identified by a model and an id
+        :param model: Model to load
+        :param id: identifier of the object to load (only one)
+        :param fields: Exists but unused in the controller definition
+        :return: a dict with one key named "value" containing a dict of all object fields
+        """
+        # TODO: document data returned by calls in case if success and in case of failure
+        return self.call_with_named_arguments('dataset', 'load',
+                                              model=model,
+                                              id=id,
+                                              fields=fields,
+                                              context=context)
+
+    def dataset_call_kw(self, model, method, *args, **kwargs):
+        """
+        Packs args and kwargs so that they are compatible with dataset/call_kw json request
+        then invoke dataset/call_kw
+
+        We pack arguments so that they conform to this structure:
+        {
+            "id": "r78",
+            "jsonrpc": "2.0",
+            "method": "call",
+            "params": {
+                "method": "create",
+                "model": "res.users",
+                "args": [
+                    {
+                        "action_id": false,
+                        "active": true,
+                        "company_id": 1,
+                        "company_ids": [
+                            [
+                                6,
+                                false,
+                                [
+                                    1
+                                ]
+                            ]
+                        ],
+                        ...
+                    }
+                ],
+                "kwargs": {
+                    "context": {
+                        "lang": "Fr_fr",
+                        "tz": false,
+                        "uid": 1
+                    }
+                },
+                "context": {
+                    "lang": "Fr_fr",
+                    "tz": false,
+                    "uid": 1
+                },
+                "session_id": "d3b252a5526646b0b3073d4114d86bda"
+            }
+        }
+
+        This method is used by OpenERPModelProxy above
+        """
+
+        url = self._url_for_method('dataset', 'call_kw')
+
+        # we build params
+        params = {
+            'method': method,
+            'model': model,
+            'args': args,
+            'kwargs': kwargs,
+            # if there is a context in kw_args, we duplicate it at "params" level
+            'context': kwargs.get('context', {})
+        }
+
+        response = self.oe_jsonrpc(url, "call", params)
+        return response
+
+# TODO: récupérer le context lors du authenticate et le repasser à chaque appel si aucun n'est fourni
+# TODO: call_button
+# TODO: un example complet de configuration openerp
+
