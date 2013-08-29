@@ -13,7 +13,8 @@ class TestDatasetService(unittest.TestCase):
 
     def no_test_010_setup_db(self):
         """search then read a set of objects"""
-        self.server.db_drop("admin", "test_dataset")
+        # TODO: Use db_list to chech db_exists before droppping it
+        result = self.server.db_drop("admin", "test_dataset")
         self.server.db_create("admin", "test_dataset", False, "Fr_fr", "admin")
 
     def test_020_search_read(self):
@@ -21,6 +22,7 @@ class TestDatasetService(unittest.TestCase):
         result = self.server.session_authenticate("test_dataset", "admin", "admin")
         print result
 
+        # Search then load all ir.ui.view
         result = self.server.dataset_search_read("ir.ui.view")
         print result
 
@@ -56,12 +58,14 @@ class TestDatasetService(unittest.TestCase):
             self.assertTrue(result, "Failed to authenticate against db_test_session database")
 
             res_partner_obj = self.server.get_model('res.users')
-            result = res_partner_obj.read([1], fields=['login', 'password'])
+
+            # call with args only
+            result = res_partner_obj.read([1], ['login', 'password'])
             self.assertTrue(result, "call_kw failed")
             print "call_kw() via model_proxy => %s" % result
 
             # we check that args, varargs combination is ok
-            result = res_partner_obj.read([1], ['login', 'password'])
+            result = res_partner_obj.read([1], fields=['login', 'password'])
             self.assertTrue(result, "call_kw failed")
             print "call_kw() via model_proxy => %s" % result
 
@@ -72,6 +76,21 @@ class TestDatasetService(unittest.TestCase):
             print "data.fault_code: %s" % exc.data['fault_code']
             raise exc
 
+    def test_060_exec_workflow(self):
+        """test exec_workflow via Model proxy"""
+        try:
+            result = self.server.session_authenticate('db_test_session', 'admin', 'admin', OE_BASE_SERVER_URL)
+            self.assertTrue(result, "Failed to authenticate against db_test_session database")
+
+            result = self.server.dataset_exec_workflow('sale.order', 5, 'order_confirm')
+            self.assertTrue(result, "exec_workflow failed because it requires a draft sale order")
+
+        except OpenERPJSONRPCClientException as exc:
+            print "message: %s" % exc.message
+            print "data: %s" % exc.data
+            print "data.type: %s" % exc.data['type']
+            print "data.fault_code: %s" % exc.data['fault_code']
+            raise exc
 
 
 if __name__ == '__main__':

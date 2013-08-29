@@ -2,6 +2,15 @@
 import requests
 import json
 
+# TODO: coverage ?
+# TODO: test exec_workflow complet et autonome sur SaleOrder
+# TODO: un example complet de configuration openerp avec wizard et settings
+# TODO: reinject in every call context got by authenticate
+# TODO: Update Documentation
+# TODO: rename with controller and requests
+# TODO: update setup.py
+# TODO: publish on pypi
+# TODO: Add a licence
 
 class OpenERPJSONRPCClientMethodNotFoundError(BaseException):
     pass
@@ -74,6 +83,7 @@ class OpenERPJSONRPCClient():
         self._base_url = base_url
         self._cookies = dict()
         self._session_id = None
+        self.user_context = None
 
         # We call get_session_info() to retreive a werkzeug cookie
         # and an openerp session_id
@@ -145,8 +155,11 @@ class OpenERPJSONRPCClient():
             raise OpenERPJSONRPCClientMethodNotFoundError("%s is not a valid URL." % url)
 
         json_response = server_response.json()
-        if json_response.get('result', False):
+
+        try:
             return json_response['result']
+        except KeyError:
+            pass
 
         # jsonrpc returns an error. So we raise an OpenERPJSONRPCClientException
         # based on the (error) response content.
@@ -231,6 +244,7 @@ class OpenERPJSONRPCClient():
         raise OpenERPJSONRPCClientServiceNotFoundError()
 
     def get_model(self, model_name):
+        """OpenERP self.pool.get(...) equivalent"""
         return OpenERPModelProxy(self, model_name)
 
     #
@@ -335,7 +349,9 @@ class OpenERPJSONRPCClient():
         :param base_location:
         :return:
         """
-        return self.call_with_named_arguments('session', 'authenticate', db=db, login=login, password=password, base_location=base_location, context=context)
+        result = self.call_with_named_arguments('session', 'authenticate', db=db, login=login, password=password, base_location=base_location, context=context)
+        self.user_context = result.get('user_context', {})
+        return result
 
     def session_sc_list(self, context={}):
         """
@@ -447,7 +463,19 @@ class OpenERPJSONRPCClient():
         response = self.oe_jsonrpc(url, "call", params)
         return response
 
-# TODO: récupérer le context lors du authenticate et le repasser à chaque appel si aucun n'est fourni
-# TODO: call_button
-# TODO: un example complet de configuration openerp
+    def dataset_exec_workflow(self, model, id, signal):
+        """Trigger signal on object id of model
+
+        :return: workflow execution result
+        """
+        return self.call_with_named_arguments('dataset', 'exec_workflow',
+                                              model=model,
+                                              id=id,
+                                              signal=signal)
+    # Note:
+    #  - we don't implement exec_button() as it modifies returned action values in a way which is not consistent
+    #  - with server side behavior
+
+
+
 
