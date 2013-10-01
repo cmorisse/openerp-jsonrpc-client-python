@@ -1,19 +1,39 @@
 # coding: utf8
+
+#    Copyright (c) 2013, Cyril MORISSE ( @cmorisse )
+#    All rights reserved.
+#
+#    Redistribution and use in source and binary forms, with or without
+#    modification, are permitted provided that the following conditions are met:
+#
+#    1. Redistributions of source code must retain the above copyright notice, this
+#       list of conditions and the following disclaimer.
+#    2. Redistributions in binary form must reproduce the above copyright notice,
+#       this list of conditions and the following disclaimer in the documentation
+#       and/or other materials provided with the distribution.
+#
+#    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+#    ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+#    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+#    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+#    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+#    (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+#    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+#    ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+#    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+#    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+#    The views and conclusions contained in the software and documentation are those
+#    of the authors and should not be interpreted as representing official policies,
+#    either expressed or implied, of the FreeBSD Project.
+
 import requests
 import json
 
-# TODO: coverage ?
-# TODO: test exec_workflow complet et autonome sur SaleOrder
-# TODO: un example complet de configuration openerp avec wizard et settings
-# TODO: reinject in every call context got by authenticate
-# TODO: Update Documentation
-# TODO: rename with controller and requests
-# TODO: update setup.py
-# TODO: publish on pypi
-# TODO: Add a licence
 
 class OpenERPJSONRPCClientMethodNotFoundError(BaseException):
     pass
+
 
 class OpenERPJSONRPCClientServiceNotFoundError(BaseException):
     pass
@@ -43,8 +63,7 @@ class OpenERPServiceProxy(object):
         Returns a wrapper method ready for OpenERPJSONRPCClient calls.
         """
         def proxy(*args, **kwargs):
-            # TODO: extract description = kw.pop('description', None) for funkload
-             return self._json_rpc_client.call(self.service_name, method, *args, **kwargs)
+            return self._json_rpc_client.call(self.service_name, method, *args, **kwargs)
 
         return proxy
 
@@ -63,8 +82,8 @@ class OpenERPModelProxy(object):
         Returns a wrapper method ready for a call to dataset.call_kw()
         """
         def proxy(*args, **kwargs):
-            # TODO: extract description = kw.pop('description', None) for funkload
             return self._json_rpc_client.dataset_call_kw(self.model_name, method, *args, **kwargs)
+
         return proxy
 
 
@@ -79,14 +98,14 @@ class OpenERPJSONRPCClient():
     )
 
     def __init__(self, base_url):
-        self._rid = 0
+        self._rid = 0  # a unique request id incremented at each request
         self._base_url = base_url
         self._cookies = dict()
         self._session_id = None
         self.user_context = None
 
         # We call get_session_info() to retreive a werkzeug cookie
-        # and an openerp session_id
+        # and an OpenERP session_id
         first_connection = self.jsonrpc(self._url_for_method('session', 'get_session_info'), 'call', session_id=None, context={})
         if first_connection.cookies.get('sid', False):
             self._cookies = dict(sid=first_connection.cookies['sid'])
@@ -97,7 +116,7 @@ class OpenERPJSONRPCClient():
 
     def jsonrpc(self, url, method, *args, **kwargs):
         """
-        Executes a "standard" jsonrpc calls
+        Executes a "standard" JSON-RPC calls
 
         :param url: url of the end point to call
         :param method: JSONRPC method to call
@@ -106,13 +125,9 @@ class OpenERPJSONRPCClient():
         :return: result of the call
         """
 
-        # Note that JSONRPC do not allow to mix positional and keyword arguments
+        # JSONRPC do not allow to mix positional and keyword arguments
         # If args are defined we use them, else we try with keywords args then fallback to None
-        params = None
-        if args:
-            params = args
-        elif kwargs:
-            params = kwargs
+        params = args or kwargs
 
         post_data = {
             'json-rpc': "2.0",
@@ -122,12 +137,14 @@ class OpenERPJSONRPCClient():
         }
 
         server_response = requests.post(url, json.dumps(post_data), cookies=self._cookies)
-        self._rid += 1  # we update request id
+        self._rid += 1
         return server_response
 
     def oe_jsonrpc(self, url, method, params={}):
         """
-        Executes jsonrpc calls
+        Executes an OpenERP flavored JSON-RPC calls :
+        - pass OpenERP _session_id along each request
+        - return the result key of the Call Response dict or raise an Exception
 
         :param url: OpenERP Service/request/ to call (cf. openerp/addons/web/controllers/main.py)
         :type  url: str
@@ -146,7 +163,7 @@ class OpenERPJSONRPCClient():
         }
         self._rid += 1
 
-        # we pass session_id
+        # We pass OpenERP _session_id at each request
         if self._session_id:
             post_data['params']['session_id'] = self._session_id
 
@@ -161,7 +178,7 @@ class OpenERPJSONRPCClient():
         except KeyError:
             pass
 
-        # jsonrpc returns an error. So we raise an OpenERPJSONRPCClientException
+        # JSON-RPC returns an error. So we raise an OpenERPJSONRPCClientException
         # based on the (error) response content.
         raise OpenERPJSONRPCClientException(json_response['error']['code'],
                                             json_response['error']['message'],
@@ -223,10 +240,11 @@ class OpenERPJSONRPCClient():
         #: :type: requests.Response
         url = self._url_for_method(service, method)
 
-        # we extract context which must not be encoded as a "field"
+        # we extract context which must not be encoded as a "field" and remain a param
         context = kwargs['context']
         del kwargs['context']
 
+        # let's add all kwargs as fields items
         params = {'fields': [{'name': k, 'value': v} for (k, v) in kwargs.items()]}
 
         # we re-inject context as the same level as "fields"
@@ -235,6 +253,7 @@ class OpenERPJSONRPCClient():
         response = self.oe_jsonrpc(url, "call", params)
         return response
 
+    @property
     def get_available_services(self):
         return OpenERPJSONRPCClient.OE_SERVICES
 
@@ -472,10 +491,16 @@ class OpenERPJSONRPCClient():
                                               model=model,
                                               id=id,
                                               signal=signal)
-    # Note:
-    #  - we don't implement exec_button() as it modifies returned action values in a way which is not consistent
-    #  - with server side behavior
+    # Note: We don't implement exec_button() as it modifies returned action values in a way which is not consistent
+    #       with server side behavior
 
 
+# TODO: add a shortcut to ir.model.data.get_object_reference('module', identifier')
+# TODO: test exec_workflow complet et autonome sur SaleOrder
+# TODO: complete example of OpenERP configuration with wizard and settings
+# TODO: By default, reinject in every call, the context got by authenticate
+# TODO: update setup.py
+# TODO: coverage ?
+# TODO: publish on pypi
 
 

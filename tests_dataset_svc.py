@@ -27,7 +27,7 @@ class TestDatasetService(unittest.TestCase):
         print result
 
     def test_030_load(self):
-        """test search_read()"""
+        """test load()"""
         result = self.server.session_authenticate("test_dataset", "admin", "admin")
         print result
 
@@ -61,11 +61,6 @@ class TestDatasetService(unittest.TestCase):
 
             # call with args only
             result = res_partner_obj.read([1], ['login', 'password'])
-            self.assertTrue(result, "call_kw failed")
-            print "call_kw() via model_proxy => %s" % result
-
-            # we check that args, varargs combination is ok
-            result = res_partner_obj.read([1], fields=['login', 'password'])
             self.assertTrue(result, "call_kw failed")
             print "call_kw() via model_proxy => %s" % result
 
