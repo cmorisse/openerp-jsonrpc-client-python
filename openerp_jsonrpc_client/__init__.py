@@ -23,8 +23,8 @@
 #    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 #    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# TODO: add a shortcut to ir.model.data.get_object_reference('module', identifier')
-# TODO: complete example of OpenERP configuration with wizard and settings to enable exec_workflow test
+# TODO: Add a shortcut to ir.model.data.get_object_reference('module', identifier')
+# TODO: Add a complete example of OpenERP configuration with wizard and settings to enable exec_workflow test
 # TODO: By default, reinject in every call, the context got by authenticate
 # TODO: coverage ?
 # TODO: publish on pypi

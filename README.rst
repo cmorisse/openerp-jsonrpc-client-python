@@ -154,7 +154,7 @@ OEJRPC implements the following helpers:
     - server.dataset_load("<model_name>", id)
     - server.dataset_exec_workflow("<model_name">, id, "<signal_name>")
 
-You can access model using either a proxied form or a low level.
+You can access model using either a proxy or a with low level function.
 
 Using a proxy:
 --------------
@@ -178,12 +178,3 @@ Example: ::
         print "data.fault_code: %s" % exc.data['fault_code']
         raise exc
 
-
-==========
-References
-==========
-
------
-Tools
------
-HTTP Scoop : To inspect HTTP Traffic

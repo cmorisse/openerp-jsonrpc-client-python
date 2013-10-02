@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.11: http://docutils.sourceforge.net/" />
-<title></title>
+<title>OpenERP JSON-RPC Client</title>
 <style type="text/css">
 
 /*
@@ -338,11 +338,9 @@ ul.auto-toc {
 </style>
 </head>
 <body>
-<div class="document">
+<div class="document" id="openerp-json-rpc-client">
+<h1 class="title">OpenERP JSON-RPC Client</h1>
 
-
-<div class="section" id="openerp-json-rpc-client">
-<h1>OpenERP JSON-RPC Client</h1>
 <p>OpenERP-JSON-RPC-Client ( or OEJRPC ) allows to remotely interact with an OpenERP Server 7.0 with Python
 using the same JSON-RPC interface used by the standard OpenERP web client.</p>
 <dl class="docutils">
@@ -356,7 +354,7 @@ using the same JSON-RPC interface used by the standard OpenERP web client.</p>
 </dd>
 </dl>
 <div class="section" id="introduction">
-<h2>Introduction</h2>
+<h1>Introduction</h1>
 <dl class="docutils">
 <dt>This module:</dt>
 <dd><ul class="first last">
@@ -383,10 +381,10 @@ using the same JSON-RPC interface used by the standard OpenERP web client.</p>
 </dl>
 </div>
 <div class="section" id="getting-started">
-<h2>Getting Started</h2>
+<h1>Getting Started</h1>
 <p>Let's say you have an OpenERP Server 7.0 running at <a class="reference external" href="http://localhost:8069">http://localhost:8069</a></p>
 <div class="section" id="install-the-module">
-<h3>Install the module</h3>
+<h2>Install the module</h2>
 <blockquote>
 <ul>
 <li><dl class="first docutils">
@@ -399,18 +397,18 @@ using the same JSON-RPC interface used by the standard OpenERP web client.</p>
 </blockquote>
 </div>
 <div class="section" id="import-the-module">
-<h3>Import the module</h3>
+<h2>Import the module</h2>
 <p>To run all examples below, you must:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; import openerp_jsonrpc_client
 </pre>
 </div>
 <div class="section" id="typical-calls-sequence">
-<h3>Typical calls sequence</h3>
+<h2>Typical calls sequence</h2>
 <p>To invoke a method, you need one Server object and various Services objects.
 Some Services requires you authenticate before you call them, some others don't.</p>
 <div class="section" id="call-example-that-do-not-require-authentication">
-<h4>Call example that do not require authentication</h4>
+<h3>Call example that do not require authentication</h3>
 <p>The database.get_list() method don&quot;t require authentication.</p>
 <pre class="literal-block">
 &gt;&gt;&gt; server = OpenERPJSONRPCClient('http://server:8069')
@@ -419,7 +417,7 @@ Some Services requires you authenticate before you call them, some others don't.
 </pre>
 </div>
 <div class="section" id="authentication">
-<h4>Authentication</h4>
+<h3>Authentication</h3>
 <p>To go further and access objects, you need to authenticate using the 'session' service:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; session_svc = server.get_service('session')
@@ -437,7 +435,7 @@ the server.</p>
 </div>
 </div>
 <div class="section" id="named-parameters">
-<h3>Named parameters</h3>
+<h2>Named parameters</h2>
 <p>As you may have notice it in the previous example, OEJRPC supports named parameters (that XML-RPC don't support).</p>
 <p>Let's consider the 'dataset' service search_read() method which combines a search then a read in
 one server roundtrip.</p>
@@ -458,14 +456,14 @@ search_read(self, req, model, fields=False, offset=0, limit=False, domain=None, 
 </pre>
 </div>
 <div class="section" id="error-handling">
-<h3>Error handling</h3>
+<h2>Error handling</h2>
 <p>You can face 2 differents error conditions:</p>
 <ul class="simple">
 <li>Exceptions due to Failure of the RPC mechanism</li>
 <li>Errors returned by the server</li>
 </ul>
 <div class="section" id="exceptions">
-<h4>Exceptions</h4>
+<h3>Exceptions</h3>
 <p>ORJRPC raise 3 different Exceptions as shown here:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; server = OpenERPJSONRPCClient(&quot;http://nonexistenthost&quot;)  # will raise requests.exceptions.ConnectionError
@@ -474,7 +472,7 @@ search_read(self, req, model, fields=False, offset=0, limit=False, domain=None, 
 </pre>
 </div>
 <div class="section" id="errors">
-<h4>Errors</h4>
+<h3>Errors</h3>
 <p>If your call raise an Exception on the serveur, it will return an Error.</p>
 <p>In that case, OEJRPC will raise an OpenERPJSONRPCClientException that contains the detail of the error object
 and the whole JSON response returned by the server.</p>
@@ -483,12 +481,13 @@ and the whole JSON response returned by the server.</p>
 </div>
 </div>
 <div class="section" id="using-oejrpc-with-the-different-openerp-services">
-<h2>Using OEJRPC with the different OpenERP Services</h2>
+<h1>Using OEJRPC with the different OpenERP Services</h1>
 <p>OEJRPC provides helpers methods for some common methods.</p>
 <p>You can find them grouped by service at the end of openerp-json-rpc-client.py</p>
-<p>You can find usage examples in the tests files (On test file par service).</p>
+<p>You can find usage examples in the tests files ; there is on test file per service.</p>
+<p>OpenERPJSONRPClient is reasonably documented so don't hesitate to use python help system.</p>
 <div class="section" id="quicklook-on-the-dataset-service-helpers-functions">
-<h3>Quicklook on the Dataset service helpers functions</h3>
+<h2>Quicklook on the Dataset service helpers functions</h2>
 <p>Note: Take a look at test_dataset_svc.py for examples of all available functions.</p>
 <p>OEJRPC implements the following helpers:</p>
 <blockquote>
@@ -498,9 +497,9 @@ and the whole JSON response returned by the server.</p>
 <li>server.dataset_exec_workflow(&quot;&lt;model_name&quot;&gt;, id, &quot;&lt;signal_name&gt;&quot;)</li>
 </ul>
 </blockquote>
-<p>You can access model using either a proxied form or a low level.</p>
+<p>You can access model using either a proxy or a with low level function.</p>
 <div class="section" id="using-a-proxy">
-<h4>Using a proxy:</h4>
+<h3>Using a proxy:</h3>
 <p>Model proxy allows to call all objects method straight on a model object.</p>
 <p>Example:</p>
 <pre class="literal-block">
@@ -520,14 +519,6 @@ except OpenERPJSONRPCClientException as exc:
     raise exc
 </pre>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="references">
-<h1>References</h1>
-<div class="section" id="tools">
-<h2>Tools</h2>
-<p>HTTP Scoop : To inspect HTTP Traffic</p>
 </div>
 </div>
 </div>
