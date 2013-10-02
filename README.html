@@ -398,6 +398,13 @@ using the same JSON-RPC interface used by the standard OpenERP web client.</p>
 </ul>
 </blockquote>
 </div>
+<div class="section" id="import-the-module">
+<h3>Import the module</h3>
+<p>To run all examples below, you must:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import openerp_jsonrpc_client
+</pre>
+</div>
 <div class="section" id="typical-calls-sequence">
 <h3>Typical calls sequence</h3>
 <p>To invoke a method, you need one Server object and various Services objects.
@@ -494,6 +501,8 @@ and the whole JSON response returned by the server.</p>
 <p>You can access model using either a proxied form or a low level.</p>
 <div class="section" id="using-a-proxy">
 <h4>Using a proxy:</h4>
+<p>Model proxy allows to call all objects method straight on a model object.</p>
+<p>Example:</p>
 <pre class="literal-block">
 OE_BASE_SERVER_URL = &quot;http://localhost:8069&quot;
 server = OpenERPJSONRPCClient(OE_BASE_SERVER_URL)

@@ -39,6 +39,13 @@ Install the module
     * Use pip or easy_install with this url: http://bitbucket.org/cmorisse/openerp-jsonrpc-client
         ``pip install http://bitbucket.org/cmorisse/openerp-jsonrpc-client``
 
+Import the module
+==================
+
+To run all examples below, you must: ::
+
+    >>> import openerp_jsonrpc_client
+
 Typical calls sequence
 ======================
 
@@ -132,7 +139,9 @@ OEJRPC provides helpers methods for some common methods.
 
 You can find them grouped by service at the end of openerp-json-rpc-client.py
 
-You can find usage examples in the tests files (On test file par service).
+You can find usage examples in the tests files ; there is on test file per service.
+
+OpenERPJSONRPClient is reasonably documented so don't hesitate to use python help system.
 
 Quicklook on the Dataset service helpers functions
 ==================================================
