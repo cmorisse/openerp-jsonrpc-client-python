@@ -22,10 +22,12 @@
 #    ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 #    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 #    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
-#    The views and conclusions contained in the software and documentation are those
-#    of the authors and should not be interpreted as representing official policies,
-#    either expressed or implied, of the FreeBSD Project.
+
+# TODO: add a shortcut to ir.model.data.get_object_reference('module', identifier')
+# TODO: complete example of OpenERP configuration with wizard and settings to enable exec_workflow test
+# TODO: By default, reinject in every call, the context got by authenticate
+# TODO: coverage ?
+# TODO: publish on pypi
 
 import requests
 import json
@@ -106,7 +108,10 @@ class OpenERPJSONRPCClient():
 
         # We call get_session_info() to retreive a werkzeug cookie
         # and an OpenERP session_id
-        first_connection = self.jsonrpc(self._url_for_method('session', 'get_session_info'), 'call', session_id=None, context={})
+        first_connection = self.jsonrpc(self._url_for_method('session', 'get_session_info'),
+                                        'call',
+                                        session_id=None,
+                                        context={})
         if first_connection.cookies.get('sid', False):
             self._cookies = dict(sid=first_connection.cookies['sid'])
         self._session_id = first_connection.json()['result']['session_id']
@@ -247,7 +252,7 @@ class OpenERPJSONRPCClient():
         # let's add all kwargs as fields items
         params = {'fields': [{'name': k, 'value': v} for (k, v) in kwargs.items()]}
 
-        # we re-inject context as the same level as "fields"
+        # we re-inject context at the same level as "fields"
         params['context'] = context
 
         response = self.oe_jsonrpc(url, "call", params)
@@ -368,7 +373,13 @@ class OpenERPJSONRPCClient():
         :param base_location:
         :return:
         """
-        result = self.call_with_named_arguments('session', 'authenticate', db=db, login=login, password=password, base_location=base_location, context=context)
+        result = self.call_with_named_arguments('session',
+                                                'authenticate',
+                                                db=db,
+                                                login=login,
+                                                password=password,
+                                                base_location=base_location,
+                                                context=context)
         self.user_context = result.get('user_context', {})
         return result
 
@@ -393,7 +404,6 @@ class OpenERPJSONRPCClient():
         :param sort: Columns to sort record by. osv.Model _order attribute by default
         :return:
         """
-        # TODO: document data returned by calls in case if success and in case of failure
         return self.call_with_named_arguments('dataset', 'search_read',
                                               model=model,
                                               fields=fields,
@@ -411,7 +421,6 @@ class OpenERPJSONRPCClient():
         :param fields: Exists but unused in the controller definition
         :return: a dict with one key named "value" containing a dict of all object fields
         """
-        # TODO: document data returned by calls in case if success and in case of failure
         return self.call_with_named_arguments('dataset', 'load',
                                               model=model,
                                               id=id,
@@ -464,7 +473,7 @@ class OpenERPJSONRPCClient():
             }
         }
 
-        This method is used by OpenERPModelProxy above
+        This method is used by OpenERPModelProxy
         """
 
         url = self._url_for_method('dataset', 'call_kw')
@@ -494,14 +503,3 @@ class OpenERPJSONRPCClient():
 
     # Note: We don't implement exec_button() as it modifies returned action values in a way which is not consistent
     #       with server side behavior
-
-
-# TODO: add a shortcut to ir.model.data.get_object_reference('module', identifier')
-# TODO: test exec_workflow complet et autonome sur SaleOrder
-# TODO: complete example of OpenERP configuration with wizard and settings
-# TODO: By default, reinject in every call, the context got by authenticate
-# TODO: update setup.py
-# TODO: coverage ?
-# TODO: publish on pypi
-
-
