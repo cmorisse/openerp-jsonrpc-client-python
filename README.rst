@@ -6,7 +6,7 @@ OpenERP-JSON-RPC-Client ( or OEJRPC ) allows to remotely interact with an OpenER
 using the same JSON-RPC interface used by the standard OpenERP web client.
 
 This module :
-    - has only been tested on Python 2.7
+    - has only been tested on Python 2.7 and OpenERP 7
     - depends on the **requests** library available at http://python-requests.org
     - is released under the FreeBSD Licence
     - is in alpha stage
@@ -37,7 +37,7 @@ Let's say you have an OpenERP Server 7.0 running at http://localhost:8069
 Install the module
 ==================
     * Use pip or easy_install with this url: http://bitbucket.org/cmorisse/openerp-jsonrpc-client
-        ``pip install http://bitbucket.org/cmorisse/openerp-jsonrpc-client``
+        ``pip install hg+http://bitbucket.org/cmorisse/openerp-jsonrpc-client``
 
 Import the module
 ==================
@@ -123,7 +123,7 @@ ORJRPC raise 3 different Exceptions as shown here: ::
 Errors
 ------
 
-If your call raise an Exception on the serveur, it will return an Error.
+If your call raise an Exception on the server, it will return an Error.
 
 In that case, OEJRPC will raise an OpenERPJSONRPCClientException that contains the detail of the error object
 and the whole JSON response returned by the server.
