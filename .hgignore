@@ -30,6 +30,8 @@ include
 
 ; For setup-tools
 *.egg-info
+dist/
 
 ; For sphinx
 _build/
+

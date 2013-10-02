@@ -274,7 +274,7 @@ class OpenERPJSONRPCClient():
         :return: list of database on server (beware of any filter in server config)
         :rtype: list
         """
-        return self.call_with_named_arguments('database', 'get_list', context=context),
+        return self.call_with_named_arguments('database', 'get_list', context=context)
 
     def db_create(self, super_admin_pwd, database_name, demo_data, language, user_admin_password, context={}):
         """
@@ -491,6 +491,7 @@ class OpenERPJSONRPCClient():
                                               model=model,
                                               id=id,
                                               signal=signal)
+
     # Note: We don't implement exec_button() as it modifies returned action values in a way which is not consistent
     #       with server side behavior
 
