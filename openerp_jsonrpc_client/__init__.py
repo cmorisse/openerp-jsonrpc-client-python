@@ -65,7 +65,7 @@ class OpenERPServiceProxy(object):
         Returns a wrapper method ready for OpenERPJSONRPCClient calls.
         """
         def proxy(*args, **kwargs):
-            return self._json_rpc_client.call(self.service_name, method, *args, **kwargs)
+            return self._json_rpc_client.call_with_named_arguments(self.service_name, method, *args, **kwargs)
 
         return proxy
 
@@ -212,9 +212,9 @@ class OpenERPJSONRPCClient():
         Returns jsonrpc.result as a dict
         or return the whole json response in case of error
         """
-        #: :type: requests.Response
         url = self._url_for_method(service, method)
         params = kwargs
+        #: :type: requests.Response
         response = self.oe_jsonrpc(url, "call", params)
         return response
 
@@ -242,7 +242,6 @@ class OpenERPJSONRPCClient():
         Returns jsonrpc.result as a dict
         or return the whole json response in case of error
         """
-        #: :type: requests.Response
         url = self._url_for_method(service, method)
 
         # we extract context which must not be encoded as a "field" and remain a param
@@ -255,6 +254,7 @@ class OpenERPJSONRPCClient():
         # we re-inject context at the same level as "fields"
         params['context'] = context
 
+        #: :type: requests.Response
         response = self.oe_jsonrpc(url, "call", params)
         return response
 
@@ -475,7 +475,6 @@ class OpenERPJSONRPCClient():
 
         This method is used by OpenERPModelProxy
         """
-
         url = self._url_for_method('dataset', 'call_kw')
 
         # we build params
@@ -501,5 +500,5 @@ class OpenERPJSONRPCClient():
                                               id=id,
                                               signal=signal)
 
-    # Note: We don't implement exec_button() as it modifies returned action values in a way which is not consistent
-    #       with server side behavior
+    # Note: We don't implement exec_button() as it modifies returned action values
+    #       in a way which is not consistent with server side behavior
