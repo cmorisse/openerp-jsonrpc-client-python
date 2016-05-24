@@ -36,8 +36,8 @@ Let's say you have an OpenERP Server 7.0 running at http://localhost:8069
 
 Install the module
 ==================
-    * Use pip or easy_install with this url: http://bitbucket.org/cmorisse/openerp-jsonrpc-client
-        ``pip install hg+http://bitbucket.org/cmorisse/openerp-jsonrpc-client``
+    * Use pip or easy_install with this url: https://github.com/cmorisse/openerp-jsonrpc-client-python
+        ``pip install git+https://github.com/cmorisse/openerp-jsonrpc-client-python``
 
 Import the module
 ==================
