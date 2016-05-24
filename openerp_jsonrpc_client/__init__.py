@@ -51,6 +51,8 @@ class OpenERPJSONRPCClientException(BaseException):
         self.data = data
         self.json_response = json_response
 
+    def __str__(self):
+        return self.data.get('fault_code')+self.data.get('debug')
 
 class OpenERPServiceProxy(object):
     """
