@@ -54,6 +54,10 @@ class OpenERPJSONRPCClientException(BaseException):
     def __str__(self):
         return self.data.get('fault_code')+self.data.get('debug')
 
+    def __repr__(self):
+        return self.__str__()
+        
+
 class OpenERPServiceProxy(object):
     """
     A proxy to a generic OpenERP Service (eg. db).
