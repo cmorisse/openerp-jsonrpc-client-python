@@ -24,5 +24,5 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Topic :: Internet :: WWW/HTTP'
     ],
-    install_requires = ['requests==1.1.0', ],
+    install_requires = ['requests>=1.1.0', ],
 )
