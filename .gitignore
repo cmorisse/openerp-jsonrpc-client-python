@@ -20,6 +20,7 @@ downloads
 etc
 buildout.cfg
 README.txt
+build/
 
 ; For virtualenv 
 bin
